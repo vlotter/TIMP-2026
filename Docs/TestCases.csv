@@ -1,6 +1,0 @@
-"ID","Title","Precondition","Steps","Expected Result","Status"
-"TC-01","Vigenere test","App running","1. Open Vigenere tab 2. Enter TEXT 3. Enter KEY 4. Click Encrypt","Encrypted text displayed","Pass"
-"TC-02","SHA-512 test","App running","1. Open SHA512 tab 2. Enter string 3. Click Hash","Hash string displayed","Pass"
-"TC-03","Bisection test","App running","1. Open Bisection 2. Enter 2, 1, 2 3. Click Calc","~1.414 displayed","Pass"
-"TC-04","Graph test","App running","1. Open Graph 2. Enter 0,2,3,0,1,1,1,2,2 3. Click Path","3 displayed","Pass"
-"TC-05","Auth fail","App running","1. Enter wrong creds 2. Click Login","Error messagebox","Pass"
