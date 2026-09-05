@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "clientconnection.h"
+#include <QMessageBox>
 #include <QStringList>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -34,7 +35,7 @@ void MainWindow::onResponse(const QByteArray& res) {
     } else if (resp.startsWith("admin_res")) {
         ui->adminRes->setText("Status: " + (parts.size() > 1 ? parts[1] : ""));
     } else if (resp.startsWith("error")) {
-        ui->statusBar->showMessage("Error: " + (parts.size() > 1 ? parts[1] : ""), 3000);
+        QMessageBox::warning(this, "Error", parts.size() > 1 ? parts[1] : "Unknown error");
     }
 }
 
