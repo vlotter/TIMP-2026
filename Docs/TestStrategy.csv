@@ -1,8 +1,0 @@
-"Test ID","Test Type","Component","Description","Expected Result"
-"T1","Unit Test","Vigenere","Encrypt 'HELLO' with 'KEY'","'RIJVS'"
-"T2","Unit Test","SHA-512","Hash 'test'","ee26b0dd..."
-"T3","Unit Test","Bisection","Find root for x^2=2 in [1,2]","~1.414"
-"T4","Unit Test","Graph","Find shortest path 0->2","3"
-"T5","Integration","Server+DB","Register new user","Success"
-"T6","Integration","Server+DB","Auth with valid creds","Success, returns role"
-"T7","E2E","Client-Server","Full login flow via GUI","Tabs unlocked"
