@@ -1,0 +1,38 @@
+@startuml
+package Server {
+  class MyTcpServer {
+    + slotNewConnection()
+    + slotServerRead()
+    + slotClientDisconnected()
+  }
+  class DataBase <<Singleton>> {
+    + static getInstance(): DataBase
+    + initDB()
+    + registerUser()
+    + authUser()
+    + setRole()
+  }
+  class FunctionsForServer {
+    + static parseAndExecute()
+  }
+  MyTcpServer --> FunctionsForServer
+  FunctionsForServer --> DataBase
+}
+
+package Client {
+  class ClientConnection <<Singleton>> {
+    + static getInstance(): ClientConnection
+    + connectToServer()
+    + sendRequest()
+  }
+  class MainWindow {
+    + onResponse()
+  }
+  class LoginDialog {
+    + on_authBtn_clicked()
+    + on_regBtn_clicked()
+  }
+  MainWindow --> ClientConnection
+  LoginDialog --> ClientConnection
+}
+@enduml

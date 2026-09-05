@@ -1,0 +1,6 @@
+cmake-build-*/
+build/
+*.user
+*.sqlite
+.idea/
+.vscode/
