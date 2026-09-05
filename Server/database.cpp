@@ -25,12 +25,12 @@ DataBase::~DataBase() {
 bool DataBase::initDB() {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("server_db.sqlite");
-    
+
     if (!db.open()) {
         qDebug() << "Failed to open database" << db.lastError().text();
         return false;
     }
-    
+
     QSqlQuery query(db);
     QString createTableQuery = "CREATE TABLE IF NOT EXISTS users ("
                                "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -41,14 +41,14 @@ bool DataBase::initDB() {
         qDebug() << "Failed to create table" << query.lastError().text();
         return false;
     }
-    
+
     // Создание администратора по умолчанию
     query.prepare("SELECT COUNT(*) FROM users WHERE login = 'admin'");
     if (query.exec() && query.next() && query.value(0).toInt() == 0) {
         registerUser("admin", "admin");
         setRole("admin", "admin");
     }
-    
+
     return true;
 }
 
@@ -56,10 +56,10 @@ bool DataBase::registerUser(const QString& login, const QString& password) {
     QSqlQuery query(db);
     query.prepare("INSERT INTO users (login, password, role) VALUES (:login, :password, 'user')");
     query.bindValue(":login", login);
-    
+
     QByteArray pwdHash = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256);
     query.bindValue(":password", pwdHash.toHex());
-    
+
     if (!query.exec()) {
         qDebug() << "Register error:" << query.lastError().text();
         return false;
@@ -71,12 +71,24 @@ bool DataBase::authUser(const QString& login, const QString& password, QString& 
     QSqlQuery query(db);
     query.prepare("SELECT password, role FROM users WHERE login = :login");
     query.bindValue(":login", login);
-    
+
     if (query.exec() && query.next()) {
         QString storedHash = query.value(0).toString();
         role = query.value(1).toString();
         QByteArray pwdHash = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256);
         return (storedHash == pwdHash.toHex());
+    }
+    return false;
+}
+
+bool DataBase::getUserRole(const QString& login, QString& role) {
+    QSqlQuery query(db);
+    query.prepare("SELECT role FROM users WHERE login = :login");
+    query.bindValue(":login", login);
+
+    if (query.exec() && query.next()) {
+        role = query.value(0).toString();
+        return true;
     }
     return false;
 }

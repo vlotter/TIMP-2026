@@ -48,7 +48,7 @@ QByteArray FunctionsForServer::handleVigenere(const QStringList& parts) {
     QString key = parts[2];
     QString result = "";
     int keyIndex = 0;
-    
+
     for (QChar c : text) {
         if (c.isLetter()) {
             int shift = key[keyIndex % key.length()].toUpper().unicode() - 'A';
@@ -68,7 +68,7 @@ QByteArray FunctionsForServer::handleVigenereDec(const QStringList& parts) {
     QString key = parts[2];
     QString result = "";
     int keyIndex = 0;
-    
+
     for (QChar c : text) {
         if (c.isLetter()) {
             int shift = key[keyIndex % key.length()].toUpper().unicode() - 'A';
@@ -96,11 +96,11 @@ QByteArray FunctionsForServer::handleBisection(const QStringList& parts) {
     double a = parts[2].toDouble();
     double b = parts[3].toDouble();
     double epsilon = 0.001;
-    
+
     auto f = [target](double x) { return x * x - target; };
-    
+
     if (f(a) * f(b) >= 0) return "error&invalid_interval\r\n";
-    
+
     double c = a;
     while ((b - a) >= epsilon) {
         c = (a + b) / 2;
@@ -108,7 +108,7 @@ QByteArray FunctionsForServer::handleBisection(const QStringList& parts) {
         else if (f(c) * f(a) < 0) b = c;
         else a = c;
     }
-    
+
     return QString("bisection_res&%1\r\n").arg(c).toUtf8();
 }
 
@@ -118,21 +118,21 @@ QByteArray FunctionsForServer::handleGraph(const QStringList& parts) {
     int start = parts[1].toInt();
     int end = parts[2].toInt();
     int V = parts[3].toInt();
-    
+
     std::vector<std::vector<std::pair<int, int>>> adj(V);
     for (int i = 4; i < parts.size() - 2; i += 3) {
         int u = parts[i].toInt();
         int v = parts[i+1].toInt();
         int w = parts[i+2].toInt();
         adj[u].push_back({v, w});
-        adj[v].push_back({u, w}); 
+        adj[v].push_back({u, w});
     }
-    
+
     std::vector<int> dist(V, 1e9);
     dist[start] = 0;
     std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> pq;
     pq.push({0, start});
-    
+
     while (!pq.empty()) {
         auto [d, u] = pq.top();
         pq.pop();
@@ -146,7 +146,7 @@ QByteArray FunctionsForServer::handleGraph(const QStringList& parts) {
             }
         }
     }
-    
+
     if (dist[end] == 1e9) return "graph_res&unreachable\r\n";
     return QString("graph_res&%1\r\n").arg(dist[end]).toUtf8();
 }
@@ -154,9 +154,10 @@ QByteArray FunctionsForServer::handleGraph(const QStringList& parts) {
 QByteArray FunctionsForServer::handleAdmin(const QStringList& parts, const QString& role) {
     if (role != "admin") return "error&access_denied\r\n";
     if (parts.size() < 3) return "error&invalid_params\r\n";
-    
+
     QString subcmd = parts[1];
     if (subcmd == "setrole") {
+        if (!(parts[3] == "admin" || parts[3] == "user")) return "error&invalid_params\r\n";
         if (DataBase::getInstance()->setRole(parts[2], parts[3])) {
             return "admin_res&role_updated\r\n";
         }

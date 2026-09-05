@@ -17,6 +17,7 @@ public:
     bool initDB();
     bool registerUser(const QString& login, const QString& password);
     bool authUser(const QString& login, const QString& password, QString& role);
+    bool getUserRole(const QString& login, QString& role);
     bool setRole(const QString& login, const QString& role);
     
 private:

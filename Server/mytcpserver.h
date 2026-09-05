@@ -20,7 +20,7 @@ public slots:
 private:
     QTcpServer *mTcpServer;
     QMap<int, QTcpSocket*> mTcpSockets;
-    QMap<int, QString> mUserRoles; // Хранение роли для каждого подключения
+    QMap<int, QString> mUserLogins; // Хранение логина для каждого подключения
 };
 
 #endif
