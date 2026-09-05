@@ -20,7 +20,7 @@ public slots:
 private:
     QTcpServer *mTcpServer;
     QMap<int, QTcpSocket*> mTcpSockets;
-    QMap<int, QString> mUserRoles; // keep track of role per connection
+    QMap<int, QString> mUserRoles; // Хранение роли для каждого подключения
 };
 
-#endif // MYTCPSERVER_H
+#endif

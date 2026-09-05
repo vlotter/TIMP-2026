@@ -42,7 +42,7 @@ bool DataBase::initDB() {
         return false;
     }
     
-    // Add default admin
+    // Создание администратора по умолчанию
     query.prepare("SELECT COUNT(*) FROM users WHERE login = 'admin'");
     if (query.exec() && query.next() && query.value(0).toInt() == 0) {
         registerUser("admin", "admin");

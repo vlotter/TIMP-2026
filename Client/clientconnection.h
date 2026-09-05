@@ -34,4 +34,4 @@ private:
     QString currentRole;
 };
 
-#endif // CLIENTCONNECTION_H
+#endif

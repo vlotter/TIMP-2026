@@ -9,4 +9,4 @@ public:
     static QString hash(const QString& input);
 };
 
-#endif // CUSTOMSHA512_H
+#endif

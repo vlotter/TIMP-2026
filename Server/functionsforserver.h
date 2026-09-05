@@ -19,4 +19,4 @@ private:
     static QByteArray handleAdmin(const QStringList& parts, const QString& role);
 };
 
-#endif // FUNCTIONSFORSERVER_H
+#endif

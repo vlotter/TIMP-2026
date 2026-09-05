@@ -22,7 +22,7 @@ void MyTcpServer::slotNewConnection() {
     QTcpSocket* clientSocket = mTcpServer->nextPendingConnection();
     int descriptor = clientSocket->socketDescriptor();
     mTcpSockets[descriptor] = clientSocket;
-    mUserRoles[descriptor] = "guest"; // default role
+    mUserRoles[descriptor] = "guest"; // Роль по умолчанию
 
     connect(clientSocket, &QTcpSocket::readyRead, this, &MyTcpServer::slotServerRead);
     connect(clientSocket, &QTcpSocket::disconnected, this, &MyTcpServer::slotClientDisconnected);
@@ -39,7 +39,7 @@ void MyTcpServer::slotServerRead() {
     
     QString role = mUserRoles[descriptor];
     QByteArray response = FunctionsForServer::parseAndExecute(array, role);
-    mUserRoles[descriptor] = role; // update role if changed during auth
+    mUserRoles[descriptor] = role; // Обновляем роль, если она изменилась при авторизации
     
     clientSocket->write(response);
 }

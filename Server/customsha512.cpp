@@ -126,7 +126,6 @@ QString CustomSha512::hash(const QString& input) {
         offset += block_size;
     }
 
-    // Edge case if padding didn't fit in the last block
     if (len % 128 >= 112) {
         memset(block, 0, 128);
         if (len % 128 == 128) {

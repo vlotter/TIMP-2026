@@ -91,7 +91,7 @@ QByteArray FunctionsForServer::handleSha512(const QStringList& parts) {
 
 QByteArray FunctionsForServer::handleBisection(const QStringList& parts) {
     if (parts.size() < 4) return "error&invalid_params\r\n";
-    // Dummy func: f(x) = x^2 - target
+    // Функция для поиска корня: f(x) = x^2 - target
     double target = parts[1].toDouble();
     double a = parts[2].toDouble();
     double b = parts[3].toDouble();
@@ -113,7 +113,7 @@ QByteArray FunctionsForServer::handleBisection(const QStringList& parts) {
 }
 
 QByteArray FunctionsForServer::handleGraph(const QStringList& parts) {
-    // Format: graph&start&end&V&E1_u&E1_v&E1_w&...
+    // Парсинг графа и поиск кратчайшего пути
     if (parts.size() < 4) return "error&invalid_params\r\n";
     int start = parts[1].toInt();
     int end = parts[2].toInt();
@@ -125,7 +125,7 @@ QByteArray FunctionsForServer::handleGraph(const QStringList& parts) {
         int v = parts[i+1].toInt();
         int w = parts[i+2].toInt();
         adj[u].push_back({v, w});
-        adj[v].push_back({u, w}); // undirected
+        adj[v].push_back({u, w}); 
     }
     
     std::vector<int> dist(V, 1e9);

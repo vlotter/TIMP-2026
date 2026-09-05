@@ -23,13 +23,13 @@ private slots:
         QVERIFY(res.startsWith("sha512_res&"));
         QString ans = QString::fromUtf8(res).split("&")[1].trimmed();
         qDebug() << "Calculated SHA-512:" << ans;
-        // hash of "test"
+        // Ожидаемый хэш для строки "test"
         QVERIFY(ans.startsWith("ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db2"));
     }
 
     void testBisection() {
         QString role = "guest";
-        QByteArray req = "bisection&2&1&2"; // sqrt(2) is between 1 and 2
+        QByteArray req = "bisection&2&1&2"; // sqrt(2) находится в интервале [1, 2]
         QByteArray res = FunctionsForServer::parseAndExecute(req, role);
         QVERIFY(res.startsWith("bisection_res&"));
         double ans = QString::fromUtf8(res).split("&")[1].trimmed().toDouble();
@@ -38,7 +38,7 @@ private slots:
     
     void testGraph() {
         QString role = "guest";
-        // start=0, end=2, V=3, 0-1 w=1, 1-2 w=2
+        // Граф: старт=0, конец=2, 3 вершины, ребра 0-1 (вес 1) и 1-2 (вес 2)
         QByteArray req = "graph&0&2&3&0&1&1&1&2&2";
         QByteArray res = FunctionsForServer::parseAndExecute(req, role);
         QVERIFY(res.startsWith("graph_res&"));
