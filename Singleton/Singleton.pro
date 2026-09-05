@@ -1,3 +1,8 @@
-TEMPLATE = lib
-CONFIG += staticlib c++17
-TARGET = SingletonStub
+TEMPLATE = app
+TARGET = Singleton
+CONFIG += c++17
+
+QT += core sql
+
+SOURCES += \
+    main.cpp

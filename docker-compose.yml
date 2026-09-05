@@ -4,14 +4,14 @@ services:
       context: .
       dockerfile: Dockerfile
       network: host
-    container_name: timp_server
+    container_name: timp_srv
     ports:
       - "33333:33333"
     volumes:
       - server_data:/app
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo 'SHA512:test' | nc -q1 localhost 34943"]
+      test: ["CMD", "bash", "-c", "echo 'SHA512&test' | nc -q1 localhost 34943"]
       interval: 30s
       timeout: 10s
       retries: 3
