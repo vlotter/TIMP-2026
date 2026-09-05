@@ -8,7 +8,9 @@ INCLUDEPATH += ../Server
 
 SOURCES += main.cpp \
            ../Server/functionsforserver.cpp \
-           ../Server/database.cpp
+           ../Server/database.cpp \
+           ../Server/customsha512.cpp
 
 HEADERS += ../Server/functionsforserver.h \
-           ../Server/database.h
+           ../Server/database.h \
+           ../Server/customsha512.h

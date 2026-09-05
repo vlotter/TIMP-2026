@@ -18,6 +18,7 @@ private slots:
     void onResponse(const QByteArray& res);
     
     void on_vigBtn_clicked();
+    void on_vigDecBtn_clicked();
     void on_shaBtn_clicked();
     void on_bisBtn_clicked();
     void on_graphBtn_clicked();

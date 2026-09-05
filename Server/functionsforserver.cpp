@@ -1,5 +1,6 @@
 #include "functionsforserver.h"
 #include "database.h"
+#include "customsha512.h"
 #include <QStringList>
 #include <QDebug>
 #include <QCryptographicHash>
@@ -16,6 +17,7 @@ QByteArray FunctionsForServer::parseAndExecute(const QByteArray& request, QStrin
     if (cmd == "auth") return handleAuth(parts, currentUserRole);
     if (cmd == "reg") return handleReg(parts);
     if (cmd == "vigenere") return handleVigenere(parts);
+    if (cmd == "vigenere_dec") return handleVigenereDec(parts);
     if (cmd == "sha512") return handleSha512(parts);
     if (cmd == "bisection") return handleBisection(parts);
     if (cmd == "graph") return handleGraph(parts);
@@ -60,11 +62,31 @@ QByteArray FunctionsForServer::handleVigenere(const QStringList& parts) {
     return QString("vigenere_res&%1\r\n").arg(result).toUtf8();
 }
 
+QByteArray FunctionsForServer::handleVigenereDec(const QStringList& parts) {
+    if (parts.size() < 3) return "error&invalid_params\r\n";
+    QString text = parts[1];
+    QString key = parts[2];
+    QString result = "";
+    int keyIndex = 0;
+    
+    for (QChar c : text) {
+        if (c.isLetter()) {
+            int shift = key[keyIndex % key.length()].toUpper().unicode() - 'A';
+            int base = c.isUpper() ? 'A' : 'a';
+            result += QChar(base + (c.unicode() - base - shift + 26) % 26);
+            keyIndex++;
+        } else {
+            result += c;
+        }
+    }
+    return QString("vigenere_res&%1\r\n").arg(result).toUtf8();
+}
+
 QByteArray FunctionsForServer::handleSha512(const QStringList& parts) {
     if (parts.size() < 2) return "error&invalid_params\r\n";
     QString text = parts[1];
-    QByteArray hash = QCryptographicHash::hash(text.toUtf8(), QCryptographicHash::Sha512);
-    return QString("sha512_res&%1\r\n").arg(QString(hash.toHex())).toUtf8();
+    QString hash = CustomSha512::hash(text);
+    return QString("sha512_res&%1\r\n").arg(hash).toUtf8();
 }
 
 QByteArray FunctionsForServer::handleBisection(const QStringList& parts) {

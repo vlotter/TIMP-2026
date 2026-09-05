@@ -8,8 +8,10 @@ LIBS += -lcrypto -lssl
 SOURCES += main.cpp \
            mytcpserver.cpp \
            functionsforserver.cpp \
-           database.cpp
+           database.cpp \
+           customsha512.cpp
 
 HEADERS += mytcpserver.h \
            functionsforserver.h \
-           database.h
+           database.h \
+           customsha512.h

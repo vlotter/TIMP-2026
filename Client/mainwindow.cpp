@@ -44,6 +44,11 @@ void MainWindow::on_vigBtn_clicked() {
     ClientConnection::getInstance()->sendRequest(req.toUtf8());
 }
 
+void MainWindow::on_vigDecBtn_clicked() {
+    QString req = "vigenere_dec&" + ui->vigText->text() + "&" + ui->vigKey->text();
+    ClientConnection::getInstance()->sendRequest(req.toUtf8());
+}
+
 void MainWindow::on_shaBtn_clicked() {
     QString req = "sha512&" + ui->shaText->text();
     ClientConnection::getInstance()->sendRequest(req.toUtf8());
@@ -55,8 +60,15 @@ void MainWindow::on_bisBtn_clicked() {
 }
 
 void MainWindow::on_graphBtn_clicked() {
-    QString data = ui->graphInput->text().replace(" ", "").replace(",", "&");
-    QString req = "graph&" + data;
+    QString edgesText = ui->graphEdges->text();
+    edgesText.replace(",", " ");
+    QStringList parts = edgesText.split(" ", Qt::SkipEmptyParts);
+    
+    QString req = "graph&" + ui->graphStart->text() + "&" + ui->graphEnd->text() + "&" + ui->graphV->text();
+    for (const QString& part : parts) {
+        req += "&" + part;
+    }
+    
     ClientConnection::getInstance()->sendRequest(req.toUtf8());
 }
 

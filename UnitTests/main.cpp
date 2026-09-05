@@ -22,6 +22,7 @@ private slots:
         QByteArray res = FunctionsForServer::parseAndExecute(req, role);
         QVERIFY(res.startsWith("sha512_res&"));
         QString ans = QString::fromUtf8(res).split("&")[1].trimmed();
+        qDebug() << "Calculated SHA-512:" << ans;
         // hash of "test"
         QVERIFY(ans.startsWith("ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db2"));
     }

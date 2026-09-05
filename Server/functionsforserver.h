@@ -12,6 +12,7 @@ private:
     static QByteArray handleAuth(const QStringList& parts, QString& role);
     static QByteArray handleReg(const QStringList& parts);
     static QByteArray handleVigenere(const QStringList& parts);
+    static QByteArray handleVigenereDec(const QStringList& parts);
     static QByteArray handleSha512(const QStringList& parts);
     static QByteArray handleBisection(const QStringList& parts);
     static QByteArray handleGraph(const QStringList& parts);
